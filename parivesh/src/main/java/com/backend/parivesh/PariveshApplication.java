@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+
 //@SpringBootApplication(scanBasePackages={
 //		"com.backend.parivesh", "com.example.model","com.example.controller","com.example.repository"})
+
 
 @SpringBootApplication
 @EnableJpaRepositories("com.backend.*")

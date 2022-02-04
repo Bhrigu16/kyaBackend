@@ -6,7 +6,8 @@ import java.util.List;
 import com.backend.model.EnumThreshold;
 
 public class activityMap {
-	
+	long activityId;
+
 	String activity_name;
 	
 	//List<String> subActivity_name=new ArrayList<String>();
@@ -59,6 +60,13 @@ public class activityMap {
 		return threshold_unit;
 	}
 
+	public long getActivityId() {
+		return activityId;
+	}
+	
+	public void setActivityId(long activityId) {
+		this.activityId = activityId;
+	}
 	public void setThreshold_unit(EnumThreshold threshold_unit) {
 		this.threshold_unit = threshold_unit;
 	}
