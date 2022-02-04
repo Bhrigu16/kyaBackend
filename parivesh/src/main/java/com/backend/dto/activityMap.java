@@ -9,13 +9,25 @@ public class activityMap {
 	
 	String activity_name;
 	
-	List<String> subActivity_name=new ArrayList<String>();
+	//List<String> subActivity_name=new ArrayList<String>();
 	
-	String threshold_param;
+	List<subActivityMap> subactivityMap=new ArrayList<subActivityMap>();
+	
+	public List<subActivityMap> getSubactivityMap() {
+		return subactivityMap;
+	}
+
+	public void setSubactivityMap(subActivityMap subactivityMap) {
+		this.subactivityMap.add(subactivityMap);
+	}
+	
+
+
+	String threshold_parameter;
 	
 	private EnumThreshold threshold_unit;
 	
-	Long threshold_val;
+	Long threshold_value;
 
 	public String getActivity_name() {
 		return activity_name;
@@ -25,22 +37,22 @@ public class activityMap {
 		this.activity_name = activity_name;
 	}
 
-	public List<String> getSubActivity_name() {
-		return subActivity_name;
+//	public List<String> getSubActivity_name() {
+//		return subActivity_name;
+//	}
+
+//	public void addSubActivity_name(String subActivity_name) {
+//		//System.out.println("--------------Here"+subActivity_name);
+//		this.subActivity_name.add(subActivity_name);
+//		//System.out.println("--------------Afterrrrr"+subActivity_name);
+//	}
+
+	public String getthreshold_parameter() {
+		return threshold_parameter;
 	}
 
-	public void addSubActivity_name(String subActivity_name) {
-		//System.out.println("--------------Here"+subActivity_name);
-		this.subActivity_name.add(subActivity_name);
-		//System.out.println("--------------Afterrrrr"+subActivity_name);
-	}
-
-	public String getThreshold_param() {
-		return threshold_param;
-	}
-
-	public void setThreshold_param(String threshold_param) {
-		this.threshold_param = threshold_param;
+	public void setthreshold_parameter(String threshold_parameter) {
+		this.threshold_parameter = threshold_parameter;
 	}
 
 	public EnumThreshold getThreshold_unit() {
@@ -51,12 +63,12 @@ public class activityMap {
 		this.threshold_unit = threshold_unit;
 	}
 
-	public Long getThreshold_val() {
-		return threshold_val;
+	public Long getthreshold_value() {
+		return threshold_value;
 	}
 
-	public void setThreshold_val(Long threshold_val) {
-		this.threshold_val = threshold_val;
+	public void setthreshold_value(Long threshold_value) {
+		this.threshold_value = threshold_value;
 	}
 	
 	
