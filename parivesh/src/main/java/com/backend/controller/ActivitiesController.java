@@ -1,8 +1,16 @@
 package com.backend.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.geotools.kml.KMLConfiguration;
+import org.geotools.xsd.Parser;
+import org.opengis.feature.Feature;
+import org.opengis.feature.simple.SimpleFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.xml.sax.SAXException;
 
 import com.backend.dto.ActivityData;
 import com.backend.dto.activityMap;
@@ -74,11 +83,20 @@ public class ActivitiesController {
 			e.printStackTrace();
 		}
 		System.out.println(file.getContentType());
+		Parser parser = new Parser(new KMLConfiguration());
+		SimpleFeature f;
+		try {
+			f = (SimpleFeature) parser.parse( file.getInputStream() );
+			Collection<Feature> placemarks =  (Collection<Feature>) f.getAttribute("Feature");
+			System.out.println(placemarks.toString());
+		} catch (IOException | SAXException | ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return true;
 	}
 
 	public List<activityMap> getMappedActivity(List<activities> activitiesList) {
-
 		List<activityMap> responseList = new ArrayList<>();
 
 		List<subActivities> subActivity_list = subActivityRepository.findAll();
