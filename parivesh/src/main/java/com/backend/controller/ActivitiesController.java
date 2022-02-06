@@ -9,7 +9,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.geotools.kml.KMLConfiguration;
 import org.geotools.xsd.Parser;
-import org.opengis.feature.Feature;
 import org.opengis.feature.simple.SimpleFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,9 +25,11 @@ import com.backend.dto.ActivityData;
 import com.backend.dto.activityMap;
 import com.backend.dto.subActivityMap;
 import com.backend.model.activities;
+import com.backend.model.kmlFile;
 import com.backend.model.subActivities;
-import com.backend.repository.ActivityRepository;
-import com.backend.repository.SubActivityRepository;
+import com.backend.repository.postgis.KMLUploadRepository;
+import com.backend.repository.postgres.ActivityRepository;
+import com.backend.repository.postgres.SubActivityRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,6 +43,9 @@ public class ActivitiesController {
 
 	@Autowired
 	SubActivityRepository subActivityRepository;
+	
+	@Autowired
+	KMLUploadRepository kmlUploadRepository;
 
 	@RequestMapping("/test")
 	public String hello() {
@@ -76,8 +80,9 @@ public class ActivitiesController {
 	public boolean userActivityInput(@RequestPart("json") String json, @RequestPart("file") MultipartFile file) {
 		System.out.println(json);
 		ObjectMapper mapper = new ObjectMapper();
+		ActivityData data = new ActivityData();
 		try {
-			ActivityData data = mapper.readValue(json, ActivityData.class);
+			data = mapper.readValue(json, ActivityData.class);
 			System.out.println(data.toString());
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
@@ -86,9 +91,16 @@ public class ActivitiesController {
 		Parser parser = new Parser(new KMLConfiguration());
 		SimpleFeature f;
 		try {
+			kmlFile kmlfile= new kmlFile();
+			kmlfile.setActivity_id(data.getActivityId());
+			kmlfile.setSub_activity_name(data.getSubActivityId());
+			kmlfile.setKmlfile_name(file.getOriginalFilename());
 			f = (SimpleFeature) parser.parse( file.getInputStream() );
-			Collection<Feature> placemarks =  (Collection<Feature>) f.getAttribute("Feature");
-			System.out.println(placemarks.toString());
+			Collection<SimpleFeature> placemarks =  (Collection<SimpleFeature>) f.getAttribute("Feature");
+			placemarks.forEach(feature -> {
+				kmlfile.setGeom((org.locationtech.jts.geom.Geometry) feature.getAttribute("Geometry"));
+			});
+			kmlUploadRepository.save(kmlfile);
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

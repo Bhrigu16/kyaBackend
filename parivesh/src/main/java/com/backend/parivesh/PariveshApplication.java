@@ -12,7 +12,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @SpringBootApplication
-@EnableJpaRepositories("com.backend.*")
 @ComponentScan(basePackages = { "com.backend.*" })
 @EntityScan("com.backend.*")
 public class PariveshApplication {
