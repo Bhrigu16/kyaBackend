@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.geotools.kml.KMLConfiguration;
@@ -25,13 +26,19 @@ import com.backend.dto.ActivityData;
 import com.backend.dto.activityMap;
 import com.backend.dto.subActivityMap;
 import com.backend.model.activities;
+import com.backend.model.guestUser;
 import com.backend.model.kmlFile;
 import com.backend.model.subActivities;
+
 import com.backend.repository.postgis.KMLUploadRepository;
 import com.backend.repository.postgres.ActivityRepository;
+import com.backend.repository.postgres.GuestUserRepository;
 import com.backend.repository.postgres.SubActivityRepository;
+import com.backend.service.RequestServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.swagger.v3.core.util.Json;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -46,6 +53,13 @@ public class ActivitiesController {
 	
 	@Autowired
 	KMLUploadRepository kmlUploadRepository;
+	
+	@Autowired
+	GuestUserRepository guestUserRepository;
+
+	//Service to fetch IP Address
+	@Autowired
+	RequestServiceImpl requestServiceImpl;
 
 	@RequestMapping("/test")
 	public String hello() {
@@ -55,7 +69,7 @@ public class ActivitiesController {
 	@RequestMapping(value = "/newactivity", method = RequestMethod.POST)
 	public String newActivity(@RequestBody activities newactivity) {
 		activityRepository.save(newactivity);
-
+		//String ip = ;
 		return "SUCCESS";
 
 	}
@@ -68,6 +82,8 @@ public class ActivitiesController {
 
 	}
 
+	
+	
 	@RequestMapping(value = "/getactivities", method = RequestMethod.GET)
 	public List<activityMap> registerUser() {
 
@@ -75,9 +91,16 @@ public class ActivitiesController {
 
 	}
 
+	@RequestMapping(value="/getKmlFile",method=RequestMethod.GET)
+	public List<kmlFile> getKMLFile() {
+		return kmlUploadRepository.findAll();
+	}
+	
+	
+	
 	@RequestMapping(value = "/userActivity", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE })
-	public boolean userActivityInput(@RequestPart("json") String json, @RequestPart("file") MultipartFile file) {
+	public boolean userActivityInput(@RequestPart("json") String json, @RequestPart("file") MultipartFile file,HttpServletRequest request) {
 		System.out.println(json);
 		ObjectMapper mapper = new ObjectMapper();
 		ActivityData data = new ActivityData();
@@ -92,22 +115,64 @@ public class ActivitiesController {
 		SimpleFeature f;
 		try {
 			kmlFile kmlfile= new kmlFile();
+			System.out.println("--------------------------------"+data.getActivityId());
+			
+			
+			//File path of kml file
+			System.out.println("--------------------------------Start of file ");
+			
+			byte[] bytes=file.getBytes();
+			 System.out.print(bytes);
+			
+			kmlfile.setFile_kml(bytes);
+			 
+			
+			System.out.println("--------------------------------End of file ");
 			kmlfile.setActivity_id(data.getActivityId());
+			System.out.println("--------------------------------"+kmlfile.getActivity_id());
 			kmlfile.setSub_activity_name(data.getSubActivityId());
 			kmlfile.setKmlfile_name(file.getOriginalFilename());
+			
+			
 			f = (SimpleFeature) parser.parse( file.getInputStream() );
 			Collection<SimpleFeature> placemarks =  (Collection<SimpleFeature>) f.getAttribute("Feature");
 			placemarks.forEach(feature -> {
 				kmlfile.setGeom((org.locationtech.jts.geom.Geometry) feature.getAttribute("Geometry"));
 			});
 			kmlUploadRepository.save(kmlfile);
+			System.out.println("///////////////////////////////////////////////");
+			System.out.println("Id of KML IS      "+kmlfile.getGid_kml());
+			
+			
+			//Updating the guest_User table
+			registerGuestUser(request,kmlfile.getGid_kml());
+			
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return true;
 	}
-
+	//@RequestMapping(value = "/guestUser", method = RequestMethod.GET)
+	
+	public void registerGuestUser(HttpServletRequest request,Long gid_kml) {
+		guestUser ob1=new guestUser();
+		
+		
+		String ipaddress=requestServiceImpl.getClientIp(request);
+		String UserAgent=request.getHeader("USER-AGENT");
+			
+		
+		ob1.setRemoteIP(ipaddress);
+		ob1.setRemoteUserAgent(UserAgent);
+		ob1.setGidKml(gid_kml);
+		ob1.setUsername("Anonymous");
+		guestUserRepository.save(ob1);
+		
+		//request.getHeader("USER-AGENT");
+		System.out.println("  Guest User Table updated...");
+	}
+	
 	public List<activityMap> getMappedActivity(List<activities> activitiesList) {
 		List<activityMap> responseList = new ArrayList<>();
 

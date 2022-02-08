@@ -3,9 +3,9 @@ package com.backend.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.backend.model.activities;
+import com.backend.model.kmlFile;
 
-
-public interface ActivityRepository extends JpaRepository<activities, Long>{
+@Repository
+public interface KmlFileRepository extends JpaRepository<kmlFile, Long>{
 
 }

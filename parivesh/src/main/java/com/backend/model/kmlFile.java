@@ -12,6 +12,7 @@ import org.opengis.geometry.coordinate.Polygon;
 
 import lombok.Data;
 
+
 @Data
 @Entity
 @Table(name="kml_file")
@@ -34,5 +35,10 @@ public class kmlFile {
 	
 	@Column(nullable = false)
 	private String kmlfile_name;
+
+	@Column(nullable = false)
+	private byte[] file_kml;
+
+	
 
 }
