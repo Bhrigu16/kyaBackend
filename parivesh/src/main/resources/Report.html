@@ -1,0 +1,247 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> -->
+<meta charset="UTF-8">
+<title>Report</title>
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Noto Sans Devanagari"></link>
+<style>
+body {
+	font-family: "Noto Sans Devanagari";
+}
+
+.sub-header {
+	height: 80px;
+	background-color: #009B49;
+	padding: 7px;
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	box-shadow: 4px 4px 32px #00000040;
+	color: #fff;
+}
+
+span {
+	font-size: 16px;
+}
+
+.hl {
+	border-bottom: 1px solid;
+	margin-bottom: 8px;
+	width: 48px;
+}
+
+.full-form {
+	font-size: 12px;
+	font-weight: 500;
+	margin-top: 5px;
+}
+
+.hindi-text {
+	font-weight: 500;
+	font-family: "Noto Sans Devanagari";
+}
+
+.header-1, .header-2 {
+	margin-left: 10px;
+	margin-bottom: 12px;
+	display: grid;
+}
+
+.header-2 span {
+	font-size: 11px !important;
+}
+
+.example-spacer {
+	flex: 1 1 auto;
+}
+
+.emb-1 {
+	margin-left: 50px;
+}
+
+.title {
+	display: flex;
+	align-items: center;
+	padding: 5px;
+}
+
+.title h2 {
+	color: #009B49;
+	font-size: 1rem;
+}
+
+.title h3 {
+	font-size: 1rem;
+	font-weight: 400;
+}
+
+.content {
+	display: flex;
+}
+
+.content .map {
+	width: 50%;
+	height: 250px;
+	margin: 6px;
+	border: 1px solid lightgrey;
+	box-shadow: -1px 2px 5px #888888;
+}
+
+.content .clearance {
+	width: 50%;
+	height: 250px;
+	margin: 6px;
+	border: 1px solid lightgrey;
+	box-shadow: -1px 2px 5px #888888;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th {
+	background-color: #F3F3F3;
+}
+
+th, td {
+	padding: 8px;
+	text-align: left;
+	border-bottom: 1px solid #DDD;
+	font-size: 14px;
+}
+
+tr {
+	border-bottom: 1px solid #ddd;
+}
+
+tr span.condition-true {
+	border: 1px solid white;
+	padding: 3px 10px;
+	background-color: #28A745;
+	color: #fff;
+	border-radius: 15px;
+}
+
+tr span.condition-false {
+	border: 1px solid white;
+	padding: 3px 10px;
+	background-color: #DC3545;
+	color: #fff;
+	border-radius: 15px;
+}
+
+.content .clearance .clearance-table {
+	padding: 8px;
+	font-weight: 600;
+	background-color: #D4EDDA;
+}
+
+.toposheet {
+	box-shadow: -1px 2px 5px #888888;
+	margin: 6px;
+}
+
+.toposheet-table tr {
+	border-bottom: none;
+}
+
+.toposheet-table tr td {
+	color: #007BFF;
+	font-weight: 600;
+}
+
+.toposheet-table th, td {
+	background-color: #fff;
+	font-weight: 400;
+	border-bottom: none;
+}
+
+.disclaimer {
+	display: grid;
+	margin: 6px;
+}
+
+.disclaimer div {
+	font-size: 13px !important;
+}
+</style>
+</head>
+
+<body>
+	<div class="sub-header">
+		<div>
+			<img th:src="@{src/main/resources/static/images/Emblem.png}" alt=""
+				height="72" width="42" />
+		</div>
+		<div class="header-1">
+			<span class="hindi-text">परिवेश</span>
+			<div class="hl"></div>
+			<div>PARIVESH</div>
+			<div class="ful	l-form">"Pro Active and Responsive facilitation
+				by Interactive and Virtuous Environmental Singlewindow Hub"</div>
+		</div>
+		<span class="example-spacer"></span>
+		<div class="header-2">
+			<span class="hindi-text">पर्यावरण,वन और जलवायु परिवर्तन
+				मंत्रालय</span> <span>Ministry of Environment, Forest and Climate
+				Change</span>
+		</div>
+		<img class="emb-1"
+			th:src="@{src/main/resources/static/images/emb5.png}" alt=""
+			height="60" width="72" />
+	</div>
+	<div class="title">
+		<h3>Know your Approvals -</h3>
+		<h2>Tentative Applicabilty of Green Clearances</h2>
+	</div>
+	<div class="content">
+		<div class="map">
+			<p>map</p>
+		</div>
+		<div class="clearance">
+			<div class="clearance-table">Recommended Clearances</div>
+			<table>
+				<tr>
+					<th>S.No</th>
+					<th>Approval</th>
+					<th>Applicability</th>
+					<th>Remarks</th>
+				</tr>
+				<tr th:each="clear : ${clearances}">
+					<td th:text="${clear.id}">test'</td>
+					<td th:text="${clear.approval}">test'</td>
+					<td><span
+						th:attr="class=${clear.applicabilty == 'Yes' ? 'condition-true' : 'condition-false'}"
+						th:text="${clear.applicabilty}">test'</span></td>
+					<td th:text="${clear.remarks}">test'</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div class="toposheet">
+		<table class="toposheet-table">
+			<tr>
+				<th>State</th>
+				<th>District</th>
+				<th>Village</th>
+				<th>Toposheet No.</th>
+			</tr>
+			<tr th:each="ob : ${sheets}">
+				<td th:text="${ob.state}">test'</td>
+				<td th:text="${ob.district}">test'</td>
+				<td th:text="${ob.village}">test'</td>
+				<td th:text="${ob.toposheetNo}">test'</td>
+			</tr>
+		</table>
+	</div>
+	<div class="disclaimer">
+		<div>Disclaimer: This map is classified and to be used for guide
+			purpose only.</div>
+		<div>Note: This is computer generated report.</div>
+	</div>
+</body>
+
+</html>

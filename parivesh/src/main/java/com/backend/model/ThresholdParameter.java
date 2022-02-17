@@ -1,10 +1,7 @@
 package com.backend.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,11 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,29 +20,50 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "sub_activities", schema = "master")
-public class SubActivities {
+@Table(name = "threshold_parameters", schema = "master")
+public class ThresholdParameter {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "activity_id", insertable = false, updatable = false)
+	@JsonBackReference
 	private Activities activity;
 
-	@OneToMany(mappedBy="subActivity",fetch = FetchType.EAGER)
-	@JsonManagedReference
-	private List<ThresholdParameter> thresholdParameter=new ArrayList<>();
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "subactivity_id", insertable = false, updatable = false)
+	@JsonBackReference
+	private SubActivities subActivity;
 
 	// Activity_Id link from activity table
 	// Foreign Key
 	@Column(nullable = false)
 	private Long activity_id;
 
+	@Column(nullable = true)
+	private Long subactivity_id;
+
 	@Column(nullable = false)
 	private String name;
+
+	@Column(nullable = false)
+	private int unit;
+
+	@Column(nullable = false)
+	private String val;
+	
+	private String threshold_unit;
+
+	@Column(nullable = false)
+	private String data_type;
+
+	@Column(nullable = false)
+	private String rendering_type;
+
+	@Column(nullable = true)
+	private String regex;
 
 	@Column(nullable = false)
 	private Date created_on;
@@ -71,5 +87,4 @@ public class SubActivities {
 
 	@Column(nullable = true)
 	private String description;
-
 }
