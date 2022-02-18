@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.repository.postgres.ThresholdRepository;
 import com.backend.model.ThresholdParameter;
-import com.backend.model.activities;
-import com.backend.model.subActivities;
+
 
 
 @RestController
@@ -32,12 +31,12 @@ public class ThresholdController {
 	}
 	
 	@GetMapping("/getActivityThreshold")
-	public List<ThresholdParameter> getActivityByThreshold(@RequestParam Long id) {
+	public List<ThresholdParameter> getActivityByThreshold(@RequestParam Integer id) {
 		return (thresholdRepository.findThresholdbyActId(id));
 	}
 	
 	@GetMapping("/getSubActivityThreshold")
-	public List<ThresholdParameter> getSubActivityByThreshold(@RequestParam Long id) {
+	public List<ThresholdParameter> getSubActivityByThreshold(@RequestParam Integer id) {
 		return (thresholdRepository.findThresholdbySubActId(id));
 	}
 	

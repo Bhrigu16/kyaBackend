@@ -25,7 +25,7 @@ public class ThresholdParameter {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Integer id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "activity_id", insertable = false, updatable = false)
@@ -40,10 +40,10 @@ public class ThresholdParameter {
 	// Activity_Id link from activity table
 	// Foreign Key
 	@Column(nullable = false)
-	private Long activity_id;
+	private Integer activity_id;
 
 	@Column(nullable = true)
-	private Long subactivity_id;
+	private Integer subactivity_id;
 
 	@Column(nullable = false)
 	private String name;
@@ -88,7 +88,7 @@ public class ThresholdParameter {
 	@Column(nullable = true)
 	private String description;
 
-	public ThresholdParameter(Long id, String name, int unit, String val, String threshold_unit, String rendering_type,
+	public ThresholdParameter(Integer id, String name, int unit, String val, String threshold_unit, String rendering_type,
 			String regex, String description) {
 		super();
 		this.id = id;

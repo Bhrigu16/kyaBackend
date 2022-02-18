@@ -34,7 +34,7 @@ public class subActivities {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Integer id;
 
 	/*@ManyToOne(cascade = CascadeType.ALL)
 	@JsonBackReference
@@ -49,7 +49,7 @@ public class subActivities {
 	// Activity_Id link from activity table
 	// Foreign Key
 	@Column(nullable = false)
-	private Long activity_id;
+	private Integer activity_id;
 
 	@Column(nullable = false)
 	private String name;
@@ -77,7 +77,7 @@ public class subActivities {
 	@Column(nullable = true)
 	private String description;
 
-	public subActivities(Long id, String name) {
+	public subActivities(Integer id, String name) {
         this.id = id;
         this.name = name;
 

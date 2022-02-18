@@ -82,7 +82,7 @@ public class ActivitiesController {
 	
 	
 	@GetMapping("/getactivity/id")
-	public Optional<activities> getActivityId(@RequestParam Long id) {
+	public Optional<activities> getActivityId(@RequestParam Integer id) {
 		return (activityRepository.findById(id));
 	}
 	

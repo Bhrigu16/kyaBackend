@@ -31,7 +31,7 @@ public class activities {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private Integer id;
 	
 	/*@JsonManagedReference
 	@OneToMany(mappedBy="activity", targetEntity = subActivities.class)
@@ -69,7 +69,7 @@ public class activities {
 	@Column(nullable = true)
 	private String description;
 
-	public activities(Long id, String name) {
+	public activities(Integer id, String name) {
 		super();
 		this.id = id;
 		this.name = name;

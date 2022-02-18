@@ -32,7 +32,7 @@ public class SubActivityController {
 	}
 	
 	@GetMapping("/getSubactivity")
-	public List<subActivities> getSubactivityById(@RequestParam Long id) {
+	public List<subActivities> getSubactivityById(@RequestParam Integer id) {
 		return (subActivtyRepository.findAllSubactivityById(id));
 	}
 
