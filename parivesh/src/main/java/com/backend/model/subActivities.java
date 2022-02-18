@@ -19,23 +19,28 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+@Entity(name="subActivities")
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "sub_activities", schema = "master")
-public class SubActivities {
+public class subActivities {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	/*@ManyToOne(cascade = CascadeType.ALL)
 	@JsonBackReference
 	@JoinColumn(name = "activity_id", insertable = false, updatable = false)
-	private Activities activity;
+	private activities activity;
+	*/
 
 	@OneToMany(mappedBy="subActivity",fetch = FetchType.EAGER)
 	@JsonManagedReference
@@ -72,4 +77,21 @@ public class SubActivities {
 	@Column(nullable = true)
 	private String description;
 
+	public subActivities(Long id, String name) {
+        this.id = id;
+        this.name = name;
+
+    }
+
+	public boolean isIs_active() {
+		return is_active;
+	}
+
+	@Override
+	public String toString() {
+		return "subActivities [id=" + id + ", name=" + name + "]";
+	}
+
+	
+	
 }

@@ -19,7 +19,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+@Entity(name="ThresholdParameter")
 @Table(name = "threshold_parameters", schema = "master")
 public class ThresholdParameter {
 
@@ -30,12 +30,12 @@ public class ThresholdParameter {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "activity_id", insertable = false, updatable = false)
 	@JsonBackReference
-	private Activities activity;
+	private activities activity;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "subactivity_id", insertable = false, updatable = false)
 	@JsonBackReference
-	private SubActivities subActivity;
+	private subActivities subActivity;
 
 	// Activity_Id link from activity table
 	// Foreign Key
@@ -87,4 +87,20 @@ public class ThresholdParameter {
 
 	@Column(nullable = true)
 	private String description;
+
+	public ThresholdParameter(Long id, String name, int unit, String val, String threshold_unit, String rendering_type,
+			String regex, String description) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.unit = unit;
+		this.val = val;
+		this.threshold_unit = threshold_unit;
+		this.rendering_type = rendering_type;
+		this.regex = regex;
+		this.description = description;
+	}
+	
+	
+	
 }

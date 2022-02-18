@@ -25,18 +25,19 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@Entity
+@Entity(name="activities")
 @Table(name="activities", schema = "master")
-public class Activities {
+public class activities {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@JsonManagedReference
-	@OneToMany(mappedBy="activity", targetEntity = SubActivities.class)
+	/*@JsonManagedReference
+	@OneToMany(mappedBy="activity", targetEntity = subActivities.class)
 	@OrderBy("name ASC")
-	private List<SubActivities> subactivity=new ArrayList<>();
+	private List<subActivities> subactivity=new ArrayList<>();
+	*/
 	
 	@OneToMany(mappedBy="activity", targetEntity = ThresholdParameter.class)
 	@JsonManagedReference
@@ -66,7 +67,14 @@ public class Activities {
 	private boolean is_deleted;
 
 	@Column(nullable = true)
-	private String description;	
+	private String description;
+
+	public activities(Long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}	
+	
 	
 }	
 	
