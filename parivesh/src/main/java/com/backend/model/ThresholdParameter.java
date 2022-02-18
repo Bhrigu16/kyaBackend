@@ -84,6 +84,8 @@ public class ThresholdParameter {
 
 	@Column(nullable = false)
 	private boolean is_deleted;
+	
+	private String unit_name;
 
 	@Column(nullable = false)
 	private boolean required;
