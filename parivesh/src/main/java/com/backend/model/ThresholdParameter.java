@@ -85,11 +85,14 @@ public class ThresholdParameter {
 	@Column(nullable = false)
 	private boolean is_deleted;
 
+	@Column(nullable = false)
+	private boolean required;
+	
 	@Column(nullable = true)
 	private String description;
 
 	public ThresholdParameter(Integer id, String name, int unit, String val, String threshold_unit, String rendering_type,
-			String regex, String description) {
+			String regex, boolean required,String description) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -98,6 +101,7 @@ public class ThresholdParameter {
 		this.threshold_unit = threshold_unit;
 		this.rendering_type = rendering_type;
 		this.regex = regex;
+		this.required=required;
 		this.description = description;
 	}
 	
