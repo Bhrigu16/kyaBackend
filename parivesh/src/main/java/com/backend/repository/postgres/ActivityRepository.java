@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.backend.model.activities;
+import com.backend.model.Activities;
 
 
-public interface ActivityRepository extends JpaRepository<activities, Integer>{
+public interface ActivityRepository extends JpaRepository<Activities, Integer>{
 
 	
-	@Query("SELECT new activities(a.id, a.name) from activities a where a.is_active='true' and a.is_deleted='false'")
-    List<activities> findAllActivities();
+	@Query("SELECT a from activities a where a.is_active='true' and a.is_deleted='false' order by name")
+    List<Activities> findAllActivities();
     
 }
