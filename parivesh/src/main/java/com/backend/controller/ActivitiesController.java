@@ -1,16 +1,31 @@
 package com.backend.controller;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.tika.Tika;
+import org.camunda.bpm.dmn.xlsx.XlsxConverter;
+import org.camunda.bpm.model.dmn.Dmn;
+import org.camunda.bpm.model.dmn.DmnModelInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.backend.model.Activities;
 import com.backend.repository.postgres.ActivityRepository;
@@ -82,5 +97,16 @@ public class ActivitiesController {
 		return (activityRepository.findById(id));
 	}
 	
+	@PostMapping("/getFileValidation")
+	public boolean fileValidation(@RequestPart("file") MultipartFile file) {
+		String fileType = null;
+		Tika tika = new Tika();
+		try {
+			fileType = tika.detect(file.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return fileType.equals("application/vnd.google-earth.kml+xml");
+	}
 
 }
