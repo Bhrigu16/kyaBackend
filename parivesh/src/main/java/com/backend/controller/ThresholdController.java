@@ -16,9 +16,8 @@ import com.backend.model.GenCodeMaster;
 import com.backend.model.ThresholdParameter;
 
 
-
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/kya/")
 public class ThresholdController {
 	
@@ -44,7 +43,7 @@ public class ThresholdController {
 
 		ThreshParam.forEach(parameter -> {
 					genCodeMasters.forEach(code -> {
-						if(code.getVal() == parameter.getUnit()) {						
+						if(code.getVal() == parameter.getUnit()) {	
 							parameter.setThreshold_unit(code.getName());
 						}
 					});

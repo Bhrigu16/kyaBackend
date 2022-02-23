@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.tika.Tika;
-import org.camunda.bpm.dmn.xlsx.XlsxConverter;
-import org.camunda.bpm.model.dmn.Dmn;
-import org.camunda.bpm.model.dmn.DmnModelInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +29,9 @@ import com.backend.repository.postgres.ActivityRepository;
 import com.backend.repository.postgres.GenCodeMasterRepository;
 import com.backend.service.RequestServiceImpl;
 
+
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/kya/")
 public class ActivitiesController {
 

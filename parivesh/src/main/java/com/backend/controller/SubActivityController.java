@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.backend.model.SubActivities;
 import com.backend.repository.postgres.SubActivityRepository;
 
+
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/kya/")
 public class SubActivityController {
 	

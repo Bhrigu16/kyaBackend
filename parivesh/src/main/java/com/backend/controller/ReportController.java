@@ -24,15 +24,16 @@ import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.html2pdf.resolver.font.DefaultFontProvider;
 import com.itextpdf.layout.font.FontProvider;
 
+
+//@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/report")
 public class ReportController {
 
-	@RequestMapping(value = "/pdf", method = RequestMethod.GET)
+	
 	public void newActivity() throws IOException {
-		String html = parseThymeleafTemplate();
-		generatePdfFromHtml(html);
+		//String html = parseThymeleafTemplate();
+		//generatePdfFromHtml(html);
 
 	}
 
@@ -51,7 +52,7 @@ public class ReportController {
 		outputStream.close();
 	}
 
-	private String parseThymeleafTemplate() {
+	/*private String parseThymeleafTemplate() {
 		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
 		templateResolver.setSuffix(".html");
 		templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -96,6 +97,6 @@ public class ReportController {
 		context.setVariable("clearances", clearances);
 
 		return templateEngine.process("Report", context);
-	}
+	}*/
 
 }
